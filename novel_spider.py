@@ -55,9 +55,9 @@ def main():
     fpath = "一念永恒.txt"
     print("开始下载。。。一共 %s 章" % ns.num_chaps)
     for i in range(ns.num_chaps):
-        print(ns.chapname[i])
+        # print(ns.chapname[i])
         ns.writer(fpath, ns.chapname[i], ns.get_chap_content(ns.chap_urls[i]))
-        sys.stdout.write("  已下载 ： %.3f%%" % (float((i+1)/ns.num_chaps)) + "\r")
+        sys.stdout.write("  已下载 ： %.3f%%" % (float((i+1)/ns.num_chaps)*100) + "\r")
         sys.stdout.flush()
     print("下载完成。")
 
