@@ -19,10 +19,12 @@ class NovelSpider(object):
     def get_chap_urls(self):
         """获取所有章节的url"""
         req = requests.get(url=self.url)
-        bs = BeautifulSoup(req.text)
+        bs = BeautifulSoup(req.text, "html5lib")
         div = bs.find_all('div', class_='listmain')
+        print(len(div[0]))
         href_bs = BeautifulSoup(str(div[0]))
         href = href_bs.find_all("a")
+        print(len(href))
         self.num_chaps = len(href[15:])    # 剔除前15个没用章节
         for cp in href[15:]:
             self.chapname.append(cp.string)
@@ -31,7 +33,7 @@ class NovelSpider(object):
     def get_chap_content(self, target):
         """获取每章节的内容"""
         req = requests.get(url=target)
-        bs = BeautifulSoup(req.text)
+        bs = BeautifulSoup(req.text, "html5lib")
         texts = bs.find_all('div', class_='showtxt')
         if len(texts)>0:
             content = texts[0].text.replace("\xa0"*8, "\n")
@@ -50,7 +52,7 @@ def main():
     ns = NovelSpider()
     ns.get_chap_urls()
     fpath = "一念永恒.txt"
-    print("开始下载。。。")
+    print("开始下载。。。一共 %s 章" % ns.num_chaps)
     for i in range(ns.num_chaps):
         print(ns.chapname[i])
         ns.writer(fpath, ns.chapname[i], ns.get_chap_content(ns.chap_urls[i]))
