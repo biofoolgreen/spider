@@ -19,6 +19,7 @@ class NovelSpider(object):
     def get_chap_urls(self):
         """获取所有章节的url"""
         req = requests.get(url=self.url)
+        # 加入解析方式，否则findall得到的结果不完整
         bs = BeautifulSoup(req.text, "html5lib")
         div = bs.find_all('div', class_='listmain')
         print(len(div[0]))
